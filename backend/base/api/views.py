@@ -6,8 +6,7 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from ..models import Profile
-from .serializers import MyTokenObtainPairSerializer
-from ..serializers import ProfileSerializer, UserSerializer
+from .serializers import MyTokenObtainPairSerializer,ProfileSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
@@ -59,25 +58,6 @@ def register_user(request):
         return Response(user_serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-# @api_view(['POST'])
-# def register_user(request):
-#     user_serializer = UserSerializer(data=request.data)
-
-#     if user_serializer.is_valid():
-#         new_user = user_serializer.save()
-
-#         # Manually create the profile data, including the new user
-#         profile_data = {
-#             'user': new_user,  # Set the user instance
-#             'first_name': request.data.get('first_name', ''),
-#             'last_name': request.data.get('last_name', ''),
-#             'email': request.data.get('email', '')
-#         }
-#         profile = Profile.objects.create(**profile_data)
-
-#         return Response(user_serializer.data, status=status.HTTP_201_CREATED)
-#     else:
-#         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET'])
 def get_routes(request):

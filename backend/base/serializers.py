@@ -1,19 +1,17 @@
 from rest_framework import serializers
-from base.models import *
+from .models import BirthCertificate, NationalID, MilitaryStatus
 
-class UserSerializer(serializers.ModelSerializer):
+class BirthCertificateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['username', 'password', 'email']
-        extra_kwargs = {'password': {'write_only': True}}
+        model = BirthCertificate
+        fields = '__all__'
 
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        return user
-        
-
-class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(many=False, read_only=True)
+class NationalIDSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
-        fields = ('user', 'first_name', 'last_name', 'email')
+        model = NationalID
+        fields = '__all__'
+
+class MilitaryStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MilitaryStatus
+        fields = '__all__'
