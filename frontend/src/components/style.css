@@ -1,0 +1,108 @@
+*
+{
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+.loginArea {
+    margin: auto;
+    background-color: #ffffff;
+    padding: 50px;
+    max-width: 550px;
+}
+.loginButton, .registerButton {
+    display: inline-block;
+    height: 50px;
+    line-height: 48px;
+    border-radius: 25px;
+    padding: 0 35px;
+    border: 1px solid #fe5000;
+    box-shadow: 0 7px 21px rgba(0,0,0,.2);
+    text-align: center;
+    min-width: 175px;
+    background-color: #fe5000;
+    color: #fff;
+}
+.loginCont {
+   height: 100vh;
+    background-color: #f9f4f0;
+
+
+}
+.org{
+    color: #fe5000;
+
+}
+.bg-org{
+    background-color: #fe5000;
+}
+.nav-bayabaty
+{
+    font-size: 28px;
+}
+.fi-02 {
+    font-family: "MabryPro", sans-serif;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 66px;
+    letter-spacing: -2px;
+}
+.fi-03 {
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: -0.4px;
+}
+.sec-2
+{
+    background-color: #f9f4f0 ;
+}
+.shsize{
+    font-size:  5rem;
+}
+.user-cards
+{
+    border: none;
+    border-radius: 3%;
+}
+.line::after
+{ content: "";
+    background-color: #fe5000;
+    width: 15%;
+    height: 2px;
+    position: absolute;
+    bottom: 0px;
+    left: 42.5%;
+}
+input[type="date"]{
+    background-color: #fe5000;
+    padding: 15px;
+    top: 50%;
+    left: 50%;
+    font-family: "Roboto Mono",monospace;
+    color: #ffffff;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+::-webkit-calendar-picker-indicator{
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.inp{
+background-color: #ffffff;
+  margin: auto; 
+  border: none;
+  border-bottom: 2px solid #000000;
+  
+
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -29,8 +29,11 @@ def register_user(request):
     # Check if user already exists
     username = request.data.get('username')
     if User.objects.filter(username=username).exists():
-        return Response({'error': 'User with this username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'User with this national id already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
+    elif Profile.objects.filter(email=request.data.get('email')).exists():    
+        return Response({'error': 'User with this email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+    
     user_serializer = UserSerializer(data=request.data)
 
     if user_serializer.is_valid():
