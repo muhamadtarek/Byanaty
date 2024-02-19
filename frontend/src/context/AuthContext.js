@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {jwtDecode} from 'jwt-decode'; // Ensure this import is correct
 import { useNavigate } from 'react-router-dom';
 
@@ -26,6 +27,8 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
         return authTokens ? getDecodedToken(authTokens.access) : null;
     });
+
+    let [error, setError] = useState('');
 
     const [loading, setLoading] = useState(true);
 
@@ -55,12 +58,12 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('authTokens', JSON.stringify(data));
                 setAuthTokens(data);
                 setUser(jwtDecode(data.access));
-                navigate('/');
+                navigate('/login');                
             } else {
                 // Handle server-side validation errors, if any
-                const errorData = await response.json();
+                let errorData = await response.json();
                 console.error('Failed to register:', errorData);
-                // You might want to update your state with these errors to display them in the UI
+                alert(errorData.error)
             }
         } catch (error) {
             console.error('Failed to register:', error);
@@ -68,14 +71,13 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    let loginUser = async (e) => {
-        e.preventDefault()
+    let loginUser = async (username, password) => {
         const response = await fetch('http://127.0.0.1:8000/api/token/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({username: e.target.username.value, password: e.target.password.value })
+            body: JSON.stringify({username: username, password: password })
         });
 
         let data = await response.json();
@@ -135,6 +137,7 @@ export const AuthProvider = ({ children }) => {
 
     let contextData = {
         user,
+        error,
         authTokens,
         loginUser,
         logoutUser,
@@ -142,4 +145,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>;
+};
+
+
+AuthProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 };

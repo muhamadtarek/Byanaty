@@ -21,14 +21,14 @@ function App() {
                 <Header/>
                 <Routes>
                     <Route path="/" element={
-                        <PrivateRoute>
+                        <PrivateRoute>                        
                             <HomePage/>
                         </PrivateRoute>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/signup" element={<SignupPage />} />
-                    <Route path="/birthcertform" element={<BirthCertificateForm />} />
-                    <Route path="/nationalidform" element={<NationalIDForm />} />
-                    <Route path="/militarystatusform" element={<MilitaryStatusForm />} />
+                    <Route path="/birthcertform" element={<PrivateRoute> <BirthCertificateForm /></PrivateRoute>} />
+                    <Route path="/nationalidform" element={<PrivateRoute><NationalIDForm /></PrivateRoute>} />
+                    <Route path="/militarystatusform" element={<PrivateRoute><MilitaryStatusForm /></PrivateRoute>} />
                 </Routes>
                 </AuthProvider>
             </Router>

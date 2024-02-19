@@ -20,7 +20,7 @@ def send_notification_email(instance):
                f"Best regards,\n"
                f"Your Service Team")
 
-    recipient_list = [instance.profile.user.email]  # Ensure the user model has an email field
+    recipient_list = [instance.user.email]  # Ensure the user model has an email field
     send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list, fail_silently=False)
 
 # Signal receivers for each document model
