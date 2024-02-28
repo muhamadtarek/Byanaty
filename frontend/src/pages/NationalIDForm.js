@@ -3,6 +3,10 @@ import AuthContext from '../context/AuthContext';
 
 const NationalIDForm = () => {
     const { authTokens } = useContext(AuthContext);
+    let { user } = useContext(AuthContext);
+    const [socialStatus, setSocialStatus] = useState('مطلق'); 
+    const [wayWork, setWayWork] = useState('أخري'); 
+    const [work, setWork] = useState('يعمل'); 
     const [formData, setFormData] = useState({
         firstName: '',
         dadName: '',
@@ -14,7 +18,7 @@ const NationalIDForm = () => {
         city3: '',
         religion: 'مسلم',
         gender: 'ذكر',
-        idCard: 44444444444444,
+        idCard: 0,
         street: '',
         buildingNumber: 0,
         group: '',
@@ -24,18 +28,25 @@ const NationalIDForm = () => {
         work: 'يعمل',
         workyear: 0,
         job: '',
-        waywork: 'أخري',
+        waywork: '',
         workPlace: '',
         tradeofficeNum: 0,
         tradeoffice: ''
     });
-    // const [selectedOption, setSelectedOption] = useState('أعزب');
 
-    // const handleRadioChange = (event) => {
-    //     const { name, value } = event.target;
-    //     setSelectedOption(value);
-    //     setFormData({ ...formData, [name]: value });
-    // };
+    const handleSocialStatusChange = (event) => {
+        setSocialStatus(event.target.value);
+        setFormData({ ...formData, socialStatus: socialStatus });
+    };
+    const handleWayWorkChange = (event) => {
+        setWayWork(event.target.value);
+        setFormData({ ...formData, waywork: wayWork });
+    };
+
+    const handleWorkChange = (event) => {
+        setWork(event.target.value);
+        setFormData({ ...formData, work: work });
+    };
 
     const handleChange = (event) => {
         const { id, value } = event.target;
@@ -45,27 +56,34 @@ const NationalIDForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log('Form data:', formData);
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/documents/national_id/', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${authTokens.access}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
 
-            if (response.ok) {
-                // Handle success
-                alert('Form submitted successfully');
-            } else {
-                // Handle errors
-                alert('Form submitted successfully');
+        // preModification(formData)
+        
+        if(user.username != formData.idCard){ 
+            alert('You are not authorized to submit this form');
+        }else{
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/documents/national_id/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authTokens.access}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.ok) {
+                    // Handle success
+                    alert('Form submitted successfully');
+                } else {
+                    // Handle errors
+                    alert('Form did not submit successfully');
+                }
+            } catch (error) {
+                alert('Error submitting form:', error);
             }
-        } catch (error) {
-            alert('Error submitting form:', error);
-        }
-    };
+        };
+    }
 
     return (
         <div className='flex d-flex justify-content-center align-items-center sec-2  pt-5'>
@@ -138,15 +156,15 @@ const NationalIDForm = () => {
                     </select>
 
                    </div>
-                      <div className='col-8 mt-2'>
-                         <input type='radio' className="form-check-input col-3 mt-4" id="validationFormCheck2" name="socialStatus" />
-                         <label htmlFor='validationFormCheck2' className='form-check-label col-3 mt-4 ms-2'> اعزب</label>
-                         <input type='radio' className="form-check-input col-3 mt-4" id="validationFormCheck3" name="socialStatus" />
-                         <label htmlFor='validationFormCheck3' className='form-check-label col-3 mt-4 ms-2'> متزوج</label>
-                         <input type='radio' className="form-check-input col-3 mt-4" id="validationFormCheck4" name="socialStatus" />
-                         <label htmlFor='validationFormCheck4' className='form-check-label col-3 mt-4 ms-2' > مطلق</label>
-                         <input type='radio' className="form-check-input col-3 mt-4" id="validationFormCheck5" name="socialStatus" />
-                         <label htmlFor='validationFormCheck5' className='form-check-label mt-4 ms-2 '> ارمل</label>
+                      <div className='col-8 mt-2' id='flex-radio-1'>
+                         <input onChange= {handleSocialStatusChange} type='radio' value="أعزب" checked={socialStatus === 'أعزب'} className="form-check-input col-3 mt-4" id="validationFormCheck2" name="socialStatus" />
+                         <label htmlFor='validationFormCheck2' className='form-check-label col-3 mt-4 ms-2' id='validationFormCheck2-label'> اعزب</label>
+                         <input onChange= {handleSocialStatusChange} type='radio' value="متزوج" checked={socialStatus === 'متزوج'} className="form-check-input col-3 mt-4" id="validationFormCheck3" name="socialStatus" />
+                         <label htmlFor='validationFormCheck3' className='form-check-label col-3 mt-4 ms-2' id='validationFormCheck3-label'> متزوج</label>
+                         <input onChange= {handleSocialStatusChange} type='radio' value="مطلق" checked={socialStatus === 'مطلق'} className="form-check-input col-3 mt-4" id="validationFormCheck4" name="socialStatus" />
+                         <label htmlFor='validationFormCheck4' className='form-check-label col-3 mt-4 ms-2' id='validationFormCheck4-label'> مطلق</label>
+                         <input onChange= {handleSocialStatusChange} type='radio' value="أرمل" checked={socialStatus === 'أرمل'} className="form-check-input col-3 mt-4" id="validationFormCheck5" name="socialStatus" />
+                         <label htmlFor='validationFormCheck5' className='form-check-label mt-4 ms-2 ' id='validationFormCheck5-label'> ارمل</label>
                       </div>
 
 <div className='col-12 mt-2'>
@@ -182,12 +200,12 @@ const NationalIDForm = () => {
     <input onChange={handleChange} type='text' className='inp col-8' id='floor' />
     <label htmlFor='floor' className='form-check-label mt-4 ms-2' > دور</label>
 </div>
-<div className='col-12 mt-2'>
+<div className='col-12 mt-2' id='flex-radio-3'>
 
- <input type='radio' className="form-check-input  mt-4 col-6" id="work" name="working"/>
-                         <label htmlFor='work' className='form-check-label  mt-4 ms-2'> يعمل </label>
-                         <input type='radio' className="form-check-input m-3 mt-4" id="notworking" name="working"/>
-                         <label htmlFor='notworking' className='form-check-label  mt-4 '> لا يعمل </label>
+ <input onChange= {handleWorkChange} type='radio' value="يعمل" checked={work === 'يعمل'} className="form-check-input  mt-4 col-6" id="work" name="work"/>
+                         <label htmlFor='work' className='form-check-label  mt-4 ms-2' id='work-label'> يعمل</label>
+                         <input onChange= {handleWorkChange} type='radio' value="لا يعمل" checked={work === 'لا يعمل'} className="form-check-input m-3 mt-4" id="notworking" name="work"/>
+                         <label htmlFor='notworking' className='form-check-label  mt-4 ' id='notworking-label'> لا يعمل</label>
 </div>
 <div className='col-4 mt-2'>
     <input onChange={handleChange} type='number' className='inp col-6' id='workyear' />
@@ -198,20 +216,27 @@ const NationalIDForm = () => {
     <label htmlFor='job' className='form-check-label mt-4 ms-2' > الوظيفة</label>
 </div>
 <div className='col-12 mt-2'>
-    <input onChange={handleChange} type='text' className='inp col-11' id='waywork' />
-    <label htmlFor='waywork' className='form-check-label mt-4 ms-2 ' > جهه العمل</label>
+    <input onChange={handleChange} type='text' className='inp col-11' id='workPlace' />
+    <label htmlFor='workPlace' className='form-check-label mt-4 ms-2 ' > جهه العمل</label>
 </div>
-<div className='col-12 mt-2'>
-                         <input type='radio' className="form-check-input  mt-4" id="validationFormCheck10" name="workPlace"/>
-                         <label htmlFor='validationFormCheck10' className='form-check-label col-2 mt-4 ms-2'> اخري</label>
-                         <input type='radio' className="form-check-input  mt-4" id="validationFormCheck6" name="workPlace"/>
-                         <label htmlFor='validationFormCheck6' className='form-check-label col-2 mt-4 ms-2'> قطاع خاص</label>
-                         <input type='radio' className="form-check-input  mt-4" id="validationFormCheck7" name="workPlace"/>
-                         <label htmlFor='validationFormCheck7' className='form-check-label col-2 mt-4 ms-2'> قطاع اعمال</label>
-                         <input type='radio' className="form-check-input  mt-4" id="validationFormCheck8" name="workPlace"/>
-                         <label htmlFor='validationFormCheck8' className='form-check-label col-2 mt-4 ms-2' > قطاع عام</label>
-                         <input type='radio' className="form-check-input  mt-4" id="validationFormCheck9" name="workPlace"/>
-                         <label htmlFor='validationFormCheck9' className='form-check-label mt-4 ms-2 col-2'> حكومه</label>
+<div className='col-12 mt-2' id='flex-radio-2'>
+                           
+                        <label htmlFor='validationFormCheck10' className='form-check-label col-2 mt-4 ms-2' id='validationFormCheck10-label'> اخري</label>
+                        <input onChange={handleWayWorkChange} type='radio' value="اخري" checked={wayWork === 'اخري'} className="form-check-input mt-4" id="validationFormCheck10" name="waywork"/>
+
+                        <label htmlFor='validationFormCheck6' className='form-check-label col-2 mt-4 ms-2' id='validationFormCheck6-label'> قطاع خاص</label>
+                        <input onChange={handleWayWorkChange} type='radio' value="قطاع خاص" checked={wayWork === 'قطاع خاص'} className="form-check-input mt-4" id="validationFormCheck6" name="waywork"/>
+
+                        <label htmlFor='validationFormCheck7' className='form-check-label col-2 mt-4 ms-2' id='validationFormCheck7-label'> قطاع اعمال</label>
+                        <input onChange={handleWayWorkChange} type='radio' value="قطاع اعمال" checked={wayWork === 'قطاع اعمال'} className="form-check-input mt-4" id="validationFormCheck7" name="waywork"/>
+
+                        <label htmlFor='validationFormCheck8' className='form-check-label col-2 mt-4 ms-2' id='validationFormCheck8-label'> قطاع عام</label>
+                        <input onChange={handleWayWorkChange} type='radio' value="قطاع عام" checked={wayWork === 'قطاع عام'} className="form-check-input mt-4" id="validationFormCheck8" name="waywork"/>
+
+                        <label htmlFor='validationFormCheck9' className='form-check-label mt-4 ms-2 col-2' id='validationFormCheck9-label'> حكومه</label>
+                        <input onChange={handleWayWorkChange} type='radio' value="حكومه" checked={wayWork === 'حكومه'} className="form-check-input mt-4" id="validationFormCheck9" name="waywork"/>
+
+
                       </div>
                       <div className='col-4 mt-2'>
                         <input onChange={handleChange} type='number' className='inp col-8' id='tradeofficeNum' />

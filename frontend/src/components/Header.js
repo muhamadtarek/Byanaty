@@ -86,7 +86,7 @@ const Header = () => {
                             {user && (
                                 <li className='nav-item d-flex align-items-center'>
                                     <p className="nav-link active mb-0">{user.username}</p>
-                                    <button onClick={(e) => { e.preventDefault(); logoutUser(); }} className="btn btn-link nav-link active">Logout</button>
+                                    <button onClick={(e) => { e.preventDefault(); logoutUser(); }} className="btn btn-link nav-link active">خروج</button>
                                 </li>
                             )}
                         </ul>

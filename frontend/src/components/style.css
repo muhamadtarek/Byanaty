@@ -106,3 +106,135 @@ input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+.photo-input-container {
+    position: relative;
+    margin-top: 200px;
+    
+  }
+  
+  .custom-label {
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .preview-image {
+    width: 100%;
+    height: auto;
+    border: 2px solid #fe5000;
+    border-radius: 8px;
+  }
+  
+  .placeholder-text {
+    color: #fe5000;
+    text-align: center;
+    padding: 10px;
+    border: 2px dashed #fe5000;
+    border-radius: 8px;
+  }
+  
+  .hidden-input {
+    display: none;
+  }
+  
+#flex-radio-1{
+    display: flex;
+    flex-direction: row; 
+}
+
+    #validationFormCheck2{
+        order: 1;
+    }
+
+    #validationFormCheck2-label{
+        order: 2;
+    }
+
+    #validationFormCheck3{
+        order: 3;
+    }
+
+    #validationFormCheck3-label{
+        order: 4;
+    }
+
+    #validationFormCheck4{
+        order: 5;
+    }
+
+    #validationFormCheck4-label{
+        order: 6;
+    }
+
+    #validationFormCheck5{
+        order: 7;
+    }
+
+    #validationFormCheck5-label{
+        order: 8;
+    }
+
+#flex-radio-2{
+    display: flex;
+    flex-direction: row;
+}
+
+    #validationFormCheck10-label{
+        order: 1;
+    }
+
+    #validationFormCheck10{
+        order: 2;
+    }
+
+    #validationFormCheck6-label{
+        order: 3;
+    }
+
+    #validationFormCheck6{
+        order: 4;
+    }
+
+    #validationFormCheck7-label{
+        order: 5;
+    }
+
+    #validationFormCheck7{
+        order: 6;
+    }
+
+    #validationFormCheck8-label{
+        order: 7;
+    }
+
+    #validationFormCheck8{
+        order: 8;
+    }
+
+    #validationFormCheck9-label{
+        order: 9;
+    }
+
+    #validationFormCheck9{
+        order: 10;
+    }
+
+
+#flex-radio-3 {
+    display: flex;
+    flex-direction: row;
+}
+
+    #work{
+        order: 1;
+    }
+    label[for="work"]{
+        order: 2;
+    }
+
+    #notworking{
+        order: 3;
+    }
+
+    label[for="notworking"]{
+        order: 4;
+    }

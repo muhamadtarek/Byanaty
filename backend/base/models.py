@@ -36,39 +36,11 @@ class NationalID(models.Model):
     workyear = models.IntegerField(default=0)
     tradeoffice = models.CharField(max_length=100, default='')
     tradeofficeNum = models.IntegerField(default=0)
-
-    RELIGION_CHOICES = [
-        ('muslim', 'مسلم'),
-        ('christian', 'مسيحي'),
-        ('jewish', 'يهودي'),
-    ]
-    GENDER_CHOICES = [
-        ('male', 'ذكر'),
-        ('female', 'أنثى'),
-    ]
-    MARITAL_STATUS_CHOICES = [
-        ('single', 'أعزب'),
-        ('married', 'متزوج'),
-        ('divorced', 'مطلق'),
-        ('widowed', 'أرمل'),
-    ]
-    WORK_STATUS_CHOICES = [
-        ('employed', 'يعمل'),
-        ('unemployed', 'لا يعمل'),
-
-    ]
-    SECTOR_CHOICES = [
-        ('other', 'أخرى'),
-        ('private', 'قطاع خاص'),
-        ('business', 'قطاع أعمال'),
-        ('public', 'قطاع عام'),
-        ('government', 'حكومة'),
-    ]
-    work = models.CharField(max_length=20, choices=WORK_STATUS_CHOICES,default = "يعمل")
-    religion = models.CharField(max_length=20, choices=RELIGION_CHOICES,default = "مسلم")
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default = "ذكر")
-    socialStatus = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, default = "أعزب")
-    waywork = models.CharField(max_length=20, choices=SECTOR_CHOICES, default = "قطاع خاص")
+    work = models.CharField(max_length=100, default='')
+    religion = models.CharField(max_length=100, default='')
+    gender = models.CharField(max_length=100, default='')
+    socialStatus = models.CharField(max_length=100, default='')
+    waywork = models.CharField(max_length=100, default='')
 
     class Meta:
         app_label = 'base'
