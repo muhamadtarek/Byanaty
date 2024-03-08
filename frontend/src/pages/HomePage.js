@@ -155,7 +155,7 @@ const HomePage = () => {
         تقديم إثبات الوفاة للإجراءات القانونية و الإدارية
       </li>
     </ul>
-    <Link to="/deathform" className="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-auto"> GO</Link>
+    <Link to="/deathform" className="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-auto"> اذهب</Link>
               </div>
               
            </div> 

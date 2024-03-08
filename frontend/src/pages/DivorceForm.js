@@ -29,7 +29,7 @@ const DivorceForm = () => {
                    <div className='col-2 mt-2'>
                      <label htmlFor='birthdaydate'>
 اسم الزوج                    </label>
-                     <input onChange={handleChange} type='date' className='form-control' id='birthdaydate' />
+                     <input onChange={handleChange} type='text' className='form-control' id='birthdaydate' />
                    </div>
                    <div className='col-4 mt-2'>
 
@@ -66,7 +66,7 @@ const DivorceForm = () => {
                    <div className='col-2 mt-2'>
                      <label htmlFor='birthdaydate'>
 اسم المأذون                 </label>
-                     <input onChange={handleChange} type='date' className='form-control' id='birthdaydate' />
+                     <input onChange={handleChange} type='text' className='form-control' id='birthdaydate' />
                    </div>
                    <div className='form-group  col-6 mt-2'>
                     <label htmlFor='momName'>

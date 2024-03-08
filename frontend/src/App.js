@@ -11,7 +11,8 @@ import MilitaryStatusForm from './pages/MilitaryStatusForm';
 import MarriageForm from './pages/MarriageForm';
 import DivorceForm from './pages/DivorceForm';
 import DeathForm from './pages/DeathForm';
-import Header from './components/Header'
+import Header from './components/Header';
+import Dashboard from './components/Dashboard'
 
 import PrivateRoute from './utils/PrivateRoute'
 
@@ -35,6 +36,7 @@ function App() {
                     <Route path="/marriageform" element={<PrivateRoute> <MarriageForm /></PrivateRoute>} />
                     <Route path="/divorceform" element={<PrivateRoute><DivorceForm /></PrivateRoute>} />
                     <Route path="/deathform" element={<PrivateRoute><DeathForm /></PrivateRoute>} />
+                    <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
                 </Routes>
                 </AuthProvider>
             </Router>

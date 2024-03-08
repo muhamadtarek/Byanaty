@@ -49,33 +49,9 @@ class NationalID(models.Model):
         return f'{self.user.username} - National ID'
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class BirthCertificate(models.Model):
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='birth_certificate')
+    user = models.OneToOneField(User, null=True,on_delete=models.CASCADE)
+    idCard = models.IntegerField(default=0)
     birth_date = models.DateField()
     place_of_birth = models.CharField(max_length=100)
     registration_number = models.CharField(max_length=100)
@@ -88,7 +64,8 @@ class BirthCertificate(models.Model):
     
 
 class MilitaryStatus(models.Model):
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='military_status')
+    user = models.OneToOneField(User, null=True,on_delete=models.CASCADE)
+    idCard = models.IntegerField(default=0)
     status = models.CharField(max_length=100)
     document_number = models.CharField(max_length=100, null=True, blank=True)
     exemption_reason = models.CharField(max_length=200, null=True, blank=True)
@@ -98,3 +75,45 @@ class MilitaryStatus(models.Model):
 
     def __str__(self):
         return f'{self.profile.user.username} - Military Status'
+    
+
+class MarriageCertificate(models.Model):
+    user = models.OneToOneField(User, null=True,on_delete=models.CASCADE)
+    idCard = models.IntegerField(default=0)
+    status = models.CharField(max_length=100)
+    document_number = models.CharField(max_length=100, null=True, blank=True)
+    exemption_reason = models.CharField(max_length=200, null=True, blank=True)
+
+    class Meta:
+        app_label = 'base'
+
+    def __str__(self):
+        return f'{self.profile.user.username} - Marriage Certificate'
+    
+
+class DivorceCertificate(models.Model):
+    user = models.OneToOneField(User, null=True,on_delete=models.CASCADE)
+    idCard = models.IntegerField(default=0)
+    status = models.CharField(max_length=100)
+    document_number = models.CharField(max_length=100, null=True, blank=True)
+    exemption_reason = models.CharField(max_length=200, null=True, blank=True)
+
+    class Meta:
+        app_label = 'base'  # Add this line 
+
+    def __str__(self):
+        return f'{self.profile.user.username} - Divorce Certificate'
+
+
+class DeathCertificate(models.Model):
+    user = models.OneToOneField(User, null=True,on_delete=models.CASCADE)
+    idCard = models.IntegerField(default=0)
+    status = models.CharField(max_length=100)
+    document_number = models.CharField(max_length=100, null=True, blank=True)
+    exemption_reason = models.CharField(max_length=200, null=True, blank=True)
+
+    class Meta:
+        app_label = 'base'
+
+    def __str__(self):
+        return f'{self.profile.user.username} - Death Certificate'

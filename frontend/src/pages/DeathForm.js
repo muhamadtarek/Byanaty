@@ -30,7 +30,12 @@ const DeathForm = () => {
                    <div className='col-2 mt-2'>
                      <label htmlFor='birthdaydate'>
 اسم ام المتوفي بالكامل                   </label>
-                     <input onChange={handleChange} type='date' className='form-control' id='birthdaydate' />
+                     <input onChange={handleChange} type='text' className='form-control' id='birthdaydate' />
+                   </div>
+                   <div className='col-2 mt-2'>
+                     <label htmlFor='birthdaydate'>
+اسم أب المتوفي بالكامل                   </label>
+                     <input onChange={handleChange} type='text' className='form-control' id='birthdaydate' />
                    </div>
                    <div className='col-4 mt-2'>
 
