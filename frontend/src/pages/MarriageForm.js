@@ -1,16 +1,124 @@
+import { useState, useContext } from 'react';
 import React from 'react';
+import AuthContext from '../context/AuthContext';
 
 const MarriageForm = () => {
-    const [name, setName] = React.useState('');
+  const { user } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    wifefullname: '',
+    husbandfullname: '',
+    wifeid: '',
+    husbandid: '',
+    wifeaddress: '',
+    husbandaddress: '',
+    marriagedate: '',
+    husbandreligion: '',
+    wifereligion: '',
+    maazounnfullname: '',
+    maazounnid: '',
+  });
 
-    const handleChange = (event) => {
-        setName(event.target.value);
-    };
-    
-    const handleSubmit = (e) => {
-      e.preventDefault();
-    };
+  const [tempData, setTempData] = useState({
+      husbandid: '',
+      wifeid: '',
+      maazounnid: '',
+      husbandaddress: '',
+      wifeaddress: '',
+  });
 
+  const handleDigits = (event) => {
+      const id = event.target.id;
+      const arabicValue = event.target.value;
+      const englishValue = arabicValue.replace(/[\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669]/g, function(d) {
+          return d.charCodeAt(0) - 1632; // Subtract the unicode value of Arabic numeral '٠'
+      });
+  
+      // Check if the input contains non-numeric characters
+      if (/[^0-9\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669]/.test(arabicValue)) {
+          alert("يرجى إدخال الأرقام العربية أو الإنجليزية فقط.");
+          return;
+      }
+  
+      // Check if the input contains both Arabic and English digits
+      if ((/[0-9]/.test(arabicValue) && /[\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669]/.test(arabicValue))) {
+          alert("يرجى إدخال الأرقام العربية أو الإنجليزية فقط، وليس كلاهما.");
+          return;
+      }
+  
+      setTempData({ ...tempData, [id]: arabicValue });
+      setFormData({ ...formData, [id]: englishValue });
+  };
+
+  const handleArabicAndDigitsInput = (event) => {
+    const id = event.target.id;
+    const arabicValue = event.target.value;
+    const englishValue = arabicValue.replace(/[\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669]/g, function(d) {
+        return d.charCodeAt(0) - 1632; // Subtract the unicode value of Arabic numeral '٠'
+    });
+
+    // Check if the input contains English letters
+    if (/[a-zA-Z]/.test(arabicValue)) {
+        alert("يرجى إدخال الحروف العربية فقط.");
+        return;
+    }
+
+    // Check if the input contains both Arabic and English digits
+    if ((/[0-9]/.test(arabicValue) && /[\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669]/.test(arabicValue))) {
+        alert("يرجى إدخال الأرقام العربية أو الإنجليزية فقط، وليس كلاهما.");
+        return;
+    }
+
+    setTempData({ ...tempData, [id]: arabicValue });
+    setFormData({ ...formData, [id]: englishValue });
+  };
+
+  const handleArabicInput = (event) => {
+      const id = event.target.id;
+      const value = event.target.value.replace(/[^\u0600-\u06FF\s]/g, '');
+      setFormData({ ...formData, [id]: value });
+  };
+
+  const handleChange = (event) => {
+      const {id, value} = event.target;
+      setFormData({ ...formData, [id]: value });
+  };
+
+  const handleMultiWordArabicInput = (event) => {
+      const id = event.target.id;
+      const value = event.target.value;
+  
+      const words = value.trim().split(/\s+/);
+      if (words.length < 4) {
+          alert("يرجى إدخال أربع كلمات على الأقل.");
+      } else {
+          setFormData({ ...formData, [id]: value });
+      }
+  };
+
+  const handleSubmit = async (event) => {
+      event.preventDefault();
+      console.log('Form data:', formData);
+  
+      let modifiedFormData = { ...formData };
+  
+      // Convert necessary fields to integers
+      modifiedFormData.wifeid = parseInt(modifiedFormData.wifeid);
+      modifiedFormData.husbandid = parseInt(modifiedFormData.husbandid);
+      modifiedFormData.maazounnid = parseInt(modifiedFormData.maazounnid);
+      
+      if(!Object.values(modifiedFormData).every(field => field !== '' && field !== 0)){ 
+          alert('رجاء ملئ كل البيانات المطلوبة');
+      }else{
+          // Convert formData to JSON and store it in local storage
+          localStorage.setItem('formData', JSON.stringify(modifiedFormData));
+  
+          // Define the document type
+          let documentType = 'marriage_certificate';
+
+          // Redirect the user to the payment page with the document type as a query parameter
+          window.location.href = `/payment?username=${user.username}&documentType=${documentType}`;
+      }
+  };
  
     return (
         <div className='flex d-flex justify-content-center align-items-center sec-2  pt-5'>
@@ -18,44 +126,44 @@ const MarriageForm = () => {
            <form onSubmit={handleSubmit}>
                   <div className='row'>
                    <div className=' col-6 mt-2'>
-                    <label htmlFor='firstName'>
+                    <label htmlFor='wifefullname'>
 اسم الزوجه                    </label>
-                    <input onChange={handleChange} type="text" className="form-control" id="firstName" />
+                    <input onChange={handleArabicInput} onBlur={handleMultiWordArabicInput} value={formData.wifefullname} type="text" className="form-control" id="wifefullname" />
                    </div>
                    <div className='form-group col-6 mt-2'>
-                    <label htmlFor='dadName'>
+                    <label htmlFor='wifeid'>
 الرقم القومي للزوجه                   </label>
-                    <input onChange={handleChange} type="number" className="form-control" id="dadName" placeholder=""/>   
+                    <input onChange={handleDigits} value ={tempData.wifeid} type="text" className="form-control" id="wifeid" placeholder=""/>   
                    </div>
                    <div className='col-2 mt-2'>
-                     <label htmlFor='birthdaydate'>
+                     <label htmlFor='husbandfullname'>
 اسم الزوج                    </label>
-                     <input onChange={handleChange} type='text' className='form-control' id='birthdaydate' />
+                     <input onChange={handleArabicInput} onBlur={handleMultiWordArabicInput} value={formData.husbandfullname} type='text' className='form-control' id='husbandfullname' />
                    </div>
                    <div className='col-4 mt-2'>
 
                    </div>
                    <div className='form-group  col-6 mt-2'>
-                    <label htmlFor='momName'>
+                    <label htmlFor='husbandid'>
 الرقم القومي للزوج                 </label>
-                    <input onChange={handleChange} type="text" className="form-control" id="momName" placeholder="  "/>   
+                    <input onChange={handleDigits} value={tempData.husbandid} type="text" className="form-control" id="husbandid" placeholder="  "/>   
                    </div>
                    <div className='form-group  col-4 mt-2'>
-                    <label htmlFor='city'>
+                    <label htmlFor='wifeaddress'>
 محل اقامه الزوجه                </label>
-                    <input onChange={handleChange} type="text" className="form-control" id="city" placeholder=" "/>   
+                    <input onChange={handleArabicAndDigitsInput} value={tempData.wifeaddress} type="text" className="form-control" id="wifeaddress" placeholder=" "/>   
                    </div>
                    <div className='form-group  col-4 mt-2'>
-                    <label htmlFor='city'>
+                    <label htmlFor='husbandaddress'>
 محل اقامه الزوج               </label>
-                    <input onChange={handleChange} type="text" className="form-control" id="city" placeholder=" "/>   
+                    <input onChange={handleArabicAndDigitsInput} value={tempData.husbandaddress} type="text" className="form-control" id="husbandaddress" placeholder=" "/>   
                    </div>
                    <div className='col-2 mt-2'>
-                    <label htmlFor='religion'>
-                        الديانة
+                    <label htmlFor='husbandreligion'>
+                        ديانة الزوج
                     </label>
-                    <select onChange={handleChange} className='form-select' id='religion'>
-                    <option selected disabled value="">Choose...</option>
+                    <select onChange={handleChange} className='form-select' id='husbandreligion'>
+                    <option selected disabled value="">...اختر</option>
                     <option>مسلم</option>
                     <option>مسيحي</option>
                     <option>يهودي</option>
@@ -63,20 +171,40 @@ const MarriageForm = () => {
                     </select>
 
                    </div>
+
+                   <div className='col-2 mt-2'>
+                    <label htmlFor='wifereligion'>
+                        ديانة الزوجة
+                    </label>
+                    <select onChange={handleChange} className='form-select' id='wifereligion'>
+                    <option selected disabled value="">...اختر</option>
+                    <option>مسلم</option>
+                    <option>مسيحي</option>
+                    <option>يهودي</option>
+
+                    </select>
+
+                   </div>
+
+                   <div className='col-2 mt-2'>
+                     <label htmlFor='marriagedate'>
+تاريخ الزواج               </label>
+                     <input onChange={handleChange} type='date' className='form-control' id='marriagedate' />
+                   </div>
                    
                    <div className='col-2 mt-2'>
-                     <label htmlFor='birthdaydate'>
+                     <label htmlFor='maazounnfullname'>
 اسم المأذون                 </label>
-                     <input onChange={handleChange} type='text' className='form-control' id='birthdaydate' />
+                     <input onChange={handleArabicInput} onBlur={handleMultiWordArabicInput} value={formData.maazounnfullname} type='text' className='form-control' id='maazounnfullname' />
                    </div>
                    <div className='form-group  col-6 mt-2'>
-                    <label htmlFor='momName'>
+                    <label htmlFor='maazounnid'>
 الرقم القومي للمأذون             </label>
-                    <input onChange={handleChange} type="text" className="form-control" id="momName" placeholder="  "/>   
+                    <input onChange={handleDigits} value ={tempData.maazounnid} type="text" className="form-control" id="maazounnid" placeholder="  "/>   
                    </div>
                   </div>
                   
-                  <input type="submit" value="Submit" className="btn loginButton mt-3 mb-3 "/>
+                  <input type="submit" value="تقديم الطلب" className="btn loginButton mt-3 mb-3 "/>
             </form>
            </div>
         </div>

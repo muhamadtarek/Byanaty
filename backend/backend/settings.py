@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-4#yp1v!-y4awh0b*h55fbywrs#p3ecxm0g_q38cs8%_#b&v$7o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.202.189', '127.0.0.1', 'localhost', '192.168.1.140']
 
 
 # Application definition
@@ -177,13 +177,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Email Settings
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'byanatyservices@gmail.com'
+EMAIL_HOST_PASSWORD = 'kxhwvzxtejmhhwqf'
 
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-
-EMAIL_PORT = os.environ.get('EMAIL_PORT', 587)  # It's safe to leave the port as a default since it rarely changes
-
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
+#MEDIA
+MEDIA_URL = '/api/documents/military_status/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

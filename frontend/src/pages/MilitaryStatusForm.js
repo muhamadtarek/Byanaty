@@ -1,41 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from '../context/AuthContext';
 
 const MilitaryStatusForm = () => {
-  const [name, setName] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null); // Initialize selectedImage
+  const { username } = useContext(AuthContext);
+  const [selectedImages, setSelectedImages] = useState([null, null, null]); // Initialize selectedImages with three null values
 
-  const handleChange = (event) => {
+  const handleChange = (event, index) => {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = (e) => setSelectedImage(e.target.result);
+      reader.onload = (e) => {
+        const newImages = [...selectedImages];
+        newImages[index] = e.target.result;
+        setSelectedImages(newImages);
+      };
       reader.readAsDataURL(event.target.files[0]);
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Image: ", selectedImage);
+    
+    // Check if all images are uploaded
+    if (selectedImages.some(image => image === null)) {
+      alert('رجاء ملئ كل البيانات المطلوبة بما في ذلك تحميل جميع الصور الثلاث');
+      return;
+    }
+
+    // Convert formData to JSON and store it in local storage
+    localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
+
+    // Define the document type
+    let documentType = 'military_status';
+
+    // Redirect the user to the payment page with the document type as a query parameter
+    window.location.href = `/payment?username=${username}&documentType=${documentType}`;
+
   };
+
+  const labels = [
+    "صورة البطاقة الخلفية",
+    "صورة اخر شهادة تعليمية",
+    "صورة شهادة الميلاد"
+  ];
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="photo-input-container">
-        <label htmlFor="photoInput" className="custom-label">
-          {selectedImage ? (
-            <img src={selectedImage} alt="Selected" className="preview-image" />
-          ) : (
-            <div className="placeholder-text">اختر الصورة</div>
-          )}
-        </label>
-        <input
-          type="file"
-          id="photoInput"
-          accept="image/*"
-          onChange={handleChange}
-          className="hidden-input"
-        />
-      </div>
-            <input type="submit" value="Submit" className="btn loginButton mt-3 mb-3 "/>
+      {[0, 1, 2].map((index) => (
+        <div key={index} className="photo-input-container">
+          <label htmlFor={`photoInput${index}`} className="custom-label">
+            {selectedImages[index] ? (
+              <img src={selectedImages[index]} alt="Selected" className="preview-image" />
+            ) : (
+              <div className="placeholder-text">{labels[index]}</div>
+            )}
+          </label>
+          <input
+            type="file"
+            id={`photoInput${index}`}
+            accept="image/*"
+            onChange={(event) => handleChange(event, index)}
+            className="hidden-input"
+          />
+        </div>
+      ))}
+      <input type="submit" value="تقديم الطلب" className="btn loginButton mt-3 mb-3" />
     </form>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import hand from '../female-hand-holding-blank-paper-records-white_copy.png'
@@ -95,7 +95,7 @@ const HomePage = () => {
         تعديل شهادة الميلاد
       </li>
     </ul>
-    <Link to="/birthcertform" className="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-auto"> اذهب </Link>
+    <Link to="/birthcertificationform" className="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-auto"> اذهب </Link>
   </div>
 </div>
 

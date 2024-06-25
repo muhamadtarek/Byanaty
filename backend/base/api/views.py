@@ -44,18 +44,20 @@ def register_user(request):
         if not created:
             # If profile exists, update it
             profile_data = {
-                'first_name': request.data.get('first_name', ''),
-                'last_name': request.data.get('last_name', ''),
-                'email': request.data.get('email', '')
+                'firstname': request.data.get('firstname', ''),
+                'lastname': request.data.get('lastname', ''),
+                'email': request.data.get('email', ''),
+                'serialnumber': request.data.get('serialnumber', '')
             }
             profile_serializer = ProfileSerializer(profile, data=profile_data, partial=True)
             if profile_serializer.is_valid():
                 profile_serializer.save()
         else:
             # If profile does not exist, create it
-            profile.first_name = request.data.get('first_name', '')
-            profile.last_name = request.data.get('last_name', '')
+            profile.first_name = request.data.get('firstname', '')
+            profile.last_name = request.data.get('lastname', '')
             profile.email = request.data.get('email', '')
+            profile.serialnumber = request.data.get('serialnumber', '')
             profile.save()
 
         return Response(user_serializer.data, status=status.HTTP_201_CREATED)
@@ -67,7 +69,13 @@ def get_routes(request):
     """returns a view containing all the possible routes"""
     routes = [
         '/api/token',
-        '/api/token/refresh'
+        '/api/token/refresh',
+        '/api/register',
+        '/api/profile',
+        '/api/routes',
+        '/api/documents/birth_certificate',
+        '/api/documents/national_id',
+        '/api/documents/military_status'
     ]
 
     return Response(routes)

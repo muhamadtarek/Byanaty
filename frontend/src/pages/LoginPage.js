@@ -26,9 +26,9 @@ function LoginPage() {
             <div className='row'>
             
             <div className='col-12 loginDiv'>
-            <h3 className='org mb-4 mt-2'>Login</h3>
+            <h3 className='org mb-4 mt-2'>تسجيل الدخول</h3>
             <form onSubmit={handleSubmit} className='form-horizontal'>
-                <label className='font-weight-light d-block ' htmlFor="username">National ID</label>
+                <label className='font-weight-light d-block ' htmlFor="username"> الرقم القومي</label>
 
                 <input className="form-control d-block font-weight-light text-right border border-1 border-opacity-75 border-black" 
                     type="text" 
@@ -37,16 +37,16 @@ function LoginPage() {
                     maxLength={14}
                     value={username}
                     onChange={handleChange}
-                    placeholder="Enter National ID" />
+                    placeholder="أدخل الرقم القومي" />
                 
-                <label className='font-weight-light d-block mt-4' htmlFor="password">password</label>
+                <label className='font-weight-light d-block mt-4' htmlFor="password">كلمة السر</label>
                 <input className="form-control d-block font-weight-light text-right border border-1 border-opacity-75 border-black" 
                 type="password" 
                 name="password" 
                 id='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password" />
+                placeholder="أدخل كلمة السر" />
                 
                 <div className='row'>
                 <div className="col-12 text-center">

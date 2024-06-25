@@ -53,7 +53,7 @@
 
 // export default Header;
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import '../components/style.css'
@@ -76,10 +76,10 @@ const Header = () => {
                             {!user && (
                                 <>
                                     <li className='nav-item'>
-                                        <Link to="/login" className="nav-link active">Login</Link>
+                                        <Link to="/login" className="nav-link active">تسجيل الدخول</Link>
                                     </li>
                                     <li className='nav-item'>
-                                        <Link to="/signup" className="nav-link active">Sign Up</Link>
+                                        <Link to="/signup" className="nav-link active">اشتراك</Link>
                                     </li>
                                 </>
                             )}
